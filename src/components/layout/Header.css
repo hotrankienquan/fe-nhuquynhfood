@@ -1,0 +1,35 @@
+.ui .container .image-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 10px;
+}
+.ui .container .header-content {
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.ui .container .link-header {
+  display: flex;
+  align-items: center;
+}
+.ui .container .header-content-manage {
+}
+.blank-div {
+  width: 700px;
+}
+.ui .container .link-header.sign-up {
+  margin-left: 10px;
+}
+.ui .container .icon-logout {
+  display: block;
+  margin: auto;
+  margin-left: 10px;
+
+}
+.ui .container .message-header {
+  font-size: 10px;
+  color: aqua;
+  display: block;
+  margin: auto 10px auto 10px;
+}

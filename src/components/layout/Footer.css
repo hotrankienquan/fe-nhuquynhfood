@@ -1,0 +1,18 @@
+.footer {
+  background-color:#231F20;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+.footer .footer-container {
+  padding: 20px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-container .color-title {
+  color: #F8E6CD;
+}
+.footer-container .color-content {
+  color:#787976;
+}

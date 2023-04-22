@@ -1,0 +1,22 @@
+.advertise-container {
+  margin: 100px;
+  display: flex;
+  justify-content: space-between;
+  gap:10%
+}
+.advertise-container .content {
+  width: 50%;
+  text-align: justify;
+}
+.advertise-container .image-container {
+  width: 50%;
+  display: flex;
+}
+.advertise-container .image-container img {
+  width: 290px;
+  height: 434px;
+  object-fit: contain;
+}
+.advertise-container .image-container img:last-child {
+  margin-left: 20px;
+}
