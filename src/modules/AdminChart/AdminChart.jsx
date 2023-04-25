@@ -44,8 +44,8 @@ const AdminChart = () => {
           {
             label: "revenue",
             data: revenue,
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            borderColor: "rgba(153, 102, 255, 0.2)",
             borderWidth: 1,
             yAxisID: "revenue-y-axis",
           }
@@ -80,18 +80,7 @@ const AdminChart = () => {
               display: true,
               labelString: "Revenue",
             },
-          },
-          "quantity-y-axis": {
-            type: "linear",
-            position: "right",
-            ticks: {
-              beginAtZero: true,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: "Quantity",
-            },
-          },
+          }
         },
       },
     });
