@@ -105,7 +105,7 @@ const Dashboard = () => {
                   {table && table.status === 0 &&
                     <Button content='đặt bàn' color='green' inverted id={table.id} onClick={(e) => handleOpenBooking(e, table)}></Button>
                   }
-                  {table && table.status === 3 && <Button content='Done' color='teal' inverted ></Button>}
+                  {table && table.status === 3 && <Button content='Xong' color='teal' inverted ></Button>}
 
                 </Segment>
               </Grid.Column>
