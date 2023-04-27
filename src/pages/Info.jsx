@@ -5,6 +5,8 @@ import { Button, Container, Form } from 'semantic-ui-react'
 import { Context } from '../context/Context.js'
 import instance from '../utils/http.js'
 import { useNavigate } from 'react-router-dom'
+import { handleShowPoppup } from '../utils/global.js'
+import { ToastContainer } from 'react-toastify'
 
 const Info = () => {
   const navigate = useNavigate();
@@ -19,7 +21,11 @@ const Info = () => {
     email: '',
     avatar: ''
   });
-  console.log(user)
+  const [pass, setPass] = useState({
+    old_password: '',
+    new_password: ''
+  });
+
   useEffect(() => {
     // setData({...user?.rows2[0]})
     instance.post('/get-user-need-update', {id})
@@ -28,11 +34,33 @@ const Info = () => {
       setData(res.data)
     })
   }, [])
+  const handleChangePassword = (event) => {
+    setPass({
+      ...pass,
+      [event.target.name]:event.target.value
+    })
+  }
   const handleChangeInput = (event) => {
     setData({
       ...data,
       [event.target.name]: event.target.value
     })
+  }
+  const handleSubmitChangePassword = async () => {
+    try {
+      console.log(pass)
+      let data_return = await instance.post('/manage/change-password', {...pass, id: user && user.rows2[0].id})
+      console.log(data_return)
+      if (data_return.errCode == 0) {
+        handleShowPoppup(data_return.errMessage)
+      }
+    } catch (err) {
+      let errCode = err.response.data.errCode;
+      let errMessage = err.response.data.errMessage;
+      if (errCode === 1) {
+        handleShowPoppup(errMessage)
+      }
+    }
   }
   const handleSubmitForm = async () => {
     try {
@@ -73,9 +101,20 @@ const Info = () => {
           <Form.Checkbox label='I agree to the Terms and Conditions' />
           <Button className='login-submit' content='Update' onClick={handleSubmitForm} disabled={isFetching}>
         </Button>
-          </Form>
+        </Form>
+        <br />
+        <hr />
+        <br />
+        <Form>
+          <Form.Group unstackable widths={2}>
+            <Form.Input label='Old password' placeholder='Old password' name="old_password" value={pass && pass.old_password}  onChange={handleChangePassword} type='password'/>
+            <Form.Input label='New password' placeholder='New password' name="new_password" value={pass && pass.new_password} onChange={handleChangePassword} type='password'/>
+          </Form.Group>
+          <Button className='login-submit' content='Change password' onClick={handleSubmitChangePassword} disabled={isFetching}>
+        </Button>
+        </Form>
       </Container>
-        
+      <ToastContainer />
       <Footer/>
     </>
   )
