@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import FoodItem from './FoodItem';
 import { Button, Grid, Item, Label, Select } from 'semantic-ui-react';
 import instance from '../../utils/http';
 import { ToastContainer, toast } from 'react-toastify';
+import { Context } from '../../context/Context.js';
 
 
 const ListFood = ({ setOpenFood, setReload }) => {
   const [listFood, setListFood] = useState([])
   const [listTable, setListTable] = useState([]);
   const [valueTable, setValueTable] = useState('');
+  const { user } = useContext(Context)
+  const emailUser = user && user.rows2[0].email || '';
+  const firstname = user && user.rows2[0].firstname || '';
+
   useEffect(() => {
     instance.get('/get-all-food')
       .then(data => {
@@ -36,7 +41,6 @@ const ListFood = ({ setOpenFood, setReload }) => {
   }
 
 
-  console.log(listTable); // trả về id, name, status
 
   const newArrayOfObj = listTable.map(({
     id: value,
@@ -56,7 +60,7 @@ const ListFood = ({ setOpenFood, setReload }) => {
     let total_price = final_food_arr.reduce((acc, current) => {
       return acc + current.price * current.quantity;
     }, 0)
-    console.log("check final food arr", final_food_arr)
+  
     let arr_id_food = [];
 //     Array [ {…}, {…} ]
 //
@@ -68,18 +72,18 @@ const ListFood = ({ setOpenFood, setReload }) => {
     final_food_arr.forEach((item) => {
       arr_id_food.push(item.id)
     })
-    console.log(arr_id_food)
     let submitData = {
       arr_id_food,
       fk_table,
       fk_id_invoice: JSON.parse(localStorage.getItem('invoice_food'))?.id_invoice || null,
       final_food_arr,
-      total_price
+      total_price,
+      emailUser: emailUser,
+      firstname:firstname
     }
-    console.log(submitData)
+    
     instance.post('/update-invoice', submitData)
       .then(data => {
-        console.log(data)
         if (data.errCode === 0) {
           handleShowPoppup(data.erMessage);
           setOpenFood(false);
@@ -106,7 +110,6 @@ const ListFood = ({ setOpenFood, setReload }) => {
       seen.add(el.id);
       return !duplicate;
     });
-    // console.log(filteredArr)
     return filteredArr;
   }
   const handleShowPoppup = (message) => {
