@@ -7,6 +7,7 @@ import PageNotFound from './pages/PageNotFound';
 import ManageLayout from './modules/manage/ManageLayout';
 import ManageUpdateTable from './modules/table/ManageUpdateTable.jsx';
 import Info from './pages/Info.jsx';
+import PrivateRoute from './utils/private-route.js';
 
 const SignUpPage = lazy(() => import('./pages/SignUpPage'));
 const SignInPage = lazy(() => import('./pages/SignInPage'));
@@ -23,6 +24,7 @@ const ManageInvoice = lazy(() => import('./modules/invoice/ManageInvoice'));
 
 function App() {
   const { user } = useContext(Context);
+  const isValidAdmin = user && user.rows2 && user.rows2[0].fk_id_type_account == '72b0ed22-9d64-4bf2-9708-35ea731dc1bb';
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -34,24 +36,69 @@ function App() {
           </Route>
           <Route path='/info' element={user ? <Info /> : <SignInPage />}></Route>
           <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
-          <Route element={<ManageLayout />}>
-            <Route path='/manage' element={<ManagePage />}></Route>
-            <Route path='/manage/user' element={<ManageUser />}></Route>
+          <Route element={<ManageLayout /> }>
+            <Route path='/manage' element={
+              <PrivateRoute>
+                <ManagePage />
+              </PrivateRoute>
+              } 
+              />
+            <Route path='/manage/user' element={
+              <PrivateRoute>
+                <ManageUser />
+              </PrivateRoute>
+            }></Route>
             <Route
               path="/manage/add-user"
-              element={<ManageAddUser />}
+              element={
+                <PrivateRoute>
+                  <ManageAddUser />
+                </PrivateRoute>
+              }
             ></Route>
             <Route
               path="/manage/update-user"
-              element={<ManageUpdateUser/>}
+              element={
+                <PrivateRoute>
+                  <ManageUpdateUser/>
+                </PrivateRoute>
+              }
             ></Route>
-            <Route path='/manage/table' element={<ManageTable />}></Route>
-            <Route path='/manage/add-table' element={<ManageAddTable />}></Route>
-            <Route path='/manage/update-table' element={<ManageUpdateTable />}></Route>
-            <Route path='/manage/food' element={<ManageFood />}></Route>
-            <Route path='/manage/add-food' element={<ManageAddFood />}></Route>
-            <Route path='/manage/update-food' element={<ManageUpdateFood />}></Route>
-            <Route path='/manage/invoice' element={<ManageInvoice />}></Route>
+            <Route path='/manage/table' element={
+              <PrivateRoute>
+                <ManageTable />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/add-table' element={
+              <PrivateRoute>
+                <ManageAddTable />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/update-table' element={
+              <PrivateRoute>
+               <ManageUpdateTable />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/food' element={
+              <PrivateRoute>
+                <ManageFood />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/add-food' element={
+              <PrivateRoute>
+                <ManageAddFood />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/update-food' element={
+              <PrivateRoute>
+                <ManageUpdateFood />
+              </PrivateRoute>
+            }></Route>
+            <Route path='/manage/invoice' element={
+              <PrivateRoute>
+                <ManageInvoice />
+              </PrivateRoute>
+            }></Route>
           </Route>
         </>
       </Routes>
